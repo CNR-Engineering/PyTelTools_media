@@ -1,0 +1,372 @@
+\documentclass{article}
+\usepackage[french]{babel}
+\addto\captionsfrench{
+  \renewcommand{\contentsname}{Contents}
+  \renewcommand{\refname}{References}
+}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{hmargin=2.7cm, vmargin=3cm}
+\usepackage{indentfirst}
+
+
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[colorlinks]{hyperref}
+\hypersetup{citecolor=red!90, urlcolor=blue!80, linkcolor=blue!80}
+
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{relsize}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{5pt}
+\renewcommand{\baselinestretch}{1.2}
+
+\usepackage{url}
+\usepackage{enumerate}
+\usepackage{graphicx}
+% \usepackage[subpreambles=true]{standalone}
+\usepackage{standalone}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{prop}{Proposition}
+\newtheorem{remark}{Remark}
+
+\usepackage{makeidx}
+\makeindex
+
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\MM}{\mathcal{M}}
+\newcommand{\VV}{\mathcal{V}}
+\newcommand{\TT}{\mathcal{T}}
+\newcommand{\area}{\mathrm{area}\hspace{1pt}}
+\newcommand{\size}{\mathrm{size}\hspace{1pt}}
+\newcommand{\vol}{\mathrm{volume\hspace{1pt}}}
+\newcommand{\ST}{\mathrm{ST}}
+\newcommand{\card}{\mathrm{card\hspace{1pt}}}
+\newcommand{\absvol}{\mathrm{volume\hspace{1pt}}^\mathrm{abs}}
+\newcommand{\quadvol}{\mathrm{volume\hspace{1pt}}^\mathrm{quad}}
+
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+\shorthandoff{:} 
+
+\maketitle
+\small
+\tableofcontents\newpage
+\printindex
+\normalsize
+
+\section{Introduction}
+\index{Basic definitions}
+We call informally a \textbf{2D mesh} $\MM$, or simple \textbf{mesh}, a finite network where
+\begin{itemize}
+\item an \textbf{element} $\TT$ is a triangle in $\RR^2$; we write $\TT\in\MM$; its vertices $P_{1,2,3}$ are called \textbf{points} of the mesh;\index{Basic definitions!Element}\index{Basic definitions!Point}
+\item a \textbf{connection} is an common edge (two common vertices) between two elements;
+\end{itemize}
+such that
+\begin{itemize}
+\item every two elements can either intersect at one common vertex, intersect at one common edge (two common vertices), or have empty intersection;
+\item every element has at least one common edge with another element (the mesh is \textbf{connected}).
+\end{itemize}
+\index{Basic definitions!Mesh}
+Furthermore, for some integer $t$ between 0 and $T_{\max}$, 
+a mesh can have a \textbf{valuation} $\VV_t$ at time $t$, which assigns to each point of the mesh a real number, called the \textbf{value} of the point.
+\index{Basic definitions!Valuation, Value of a point}
+
+Other useful notations include
+\begin{itemize}
+\item $\area(\TT)$ is the area of the triangle $\TT$; 
+\item $\area(\MM)=\sum_{\TT\in\MM}\area(\TT)$ is the total area of elements in the mesh $\MM$;
+\item $\size(\MM)$ is the number of elements in the mesh $\MM$.
+\end{itemize}
+
+\section{Interpolation}
+\index{Interpolation}
+\begin{defn}
+Let $\TT$ be a triangle in $\RR^2$ of vertices $P_{1,2,3}$, for a point $Q\in\TT$ (in the interior or on the boundary), the \textbf{barycentric coordinates} of $Q$ is equal to
+\[\lambda_1 = \frac{\area(\TT_1)}{\area(\TT)},\quad\lambda_2 = \frac{\area(\TT_2)}{\area(\TT)},\quad\lambda_3 = \frac{\area(\TT_3)}{\area(\TT)}\]
+where $\TT_1,\,\TT_2,\,\TT_3$ are triangles in $\RR^2$ defined by the vertices $P_2\,P_3\,Q$, $P_1\,P_3\,Q$ and $P_1\,P_2\,Q$
+(when $Q$ is on the boundary of $\TT$, one or two of the triangles $\TT_1,\,\TT_2,\,\TT_3$ are considered to be empty triangle).
+\end{defn}
+\index{Interpolation!Barycentric coordinates}
+
+\begin{defn}
+Given a mesh $\MM$ valuated at $\VV_t$ and an element $\TT\in\MM$ of vertices $P_{1,2,3}$, the \textbf{interpolated value of a point} $Q\in\TT$ is equal to the dot product of the barycentric coordinates of $Q$ and the values of $P_{1,2,3}$:
+\[\lambda_1\,\VV_t(P_1) + \lambda_2\,\VV_t(P_2) + \lambda_3\,\VV_t(P_3)\]
+\end{defn}
+\index{Interpolation!Interpolated value of a point}
+
+
+\section{Sub-triangulation}
+\subsection{Definition}
+\begin{defn}
+A \textbf{sub-triangulation} $(\MM^*,\,\VV_t^*)$ of a mesh $\MM$ valuated at $\VV_t$ is the result of the operation that, for every element $\TT\in\MM$ of vertices $P_{1,2,3}$,
+\begin{itemize}
+\item adds a point $Q$ in the interior of $\TT$ and splits $\TT$ into three elements $\TT_1,\,\TT_2,\,\TT_3$ of vertices $P_2\,P_3\,Q$, $P_1\,P_3\,Q$ and $P_1\,P_2\,Q$, called the splits of $\TT$ at $Q$;
+\item extends $\VV_t$ to $Q$ and assigns to $Q$ the interpolated value at $Q$.
+\end{itemize}
+We note $\ST(\MM,\,\VV_t)$ the set of all sub-triangulations of $\MM$ valuated at $\VV_t$.
+\end{defn}
+\index{Sub-triangulation!Sub-triangulation}
+
+\subsection{Invariance under sub-triangulation}
+\begin{defn}
+Given a mesh $\MM$ valuated at $\VV_t$, a function $f$ of $(\MM,\,\VV_t)$ is \textbf{invariant under sub-triangulation} if $f$ is constant in the set of all sub-triangulations of $\MM$ valuated at $\VV_t$:
+\[\forall (\MM^*,\,\VV_t^*)\in\ST(\MM,\,\VV_t),\quad f(\MM^*,\,\VV_t^*) = f(\MM,\,\VV_t).\]
+\end{defn}
+\index{Sub-triangulation!Invariance under sub-triangulation}
+
+
+
+
+\section{Volume}
+\index{Volume}
+
+\subsection{Volume of an element}
+\begin{defn}
+Given a mesh $\MM$ valuated at $\VV_t$, the \textbf{volume} $\vol_t(\TT,\,\VV_t)$ \textbf{of an element} $\TT\in\MM$ (also called \textbf{net volume}) of vertices $P_{1,2,3}$ is the product of the area of $\TT$ by one third the sum of the values of its three vertices:
+\[\vol_t(\TT,\,\VV_t) = \frac{\area(\TT)}{3}
+\sum_{P_i} \VV_t(P_i). \]
+\label{def:volumeT}\end{defn}
+\index{Volume!Volume of an element}
+
+
+\subsection{Explanation}
+The definition of the volume of an element $\TT$ valuated at $\VV_t$ can be easily understood by picturing the \textbf{truncated right triangular prism} $\overline{\TT}_t$ in $\RR^3$ naturally induced by the valuation $\VV_t$.
+\index{Volume!Truncated right triangular prism}
+
+\begin{figure}[ht!]
+\centering \includestandalone[mode=buildnew]{prism}
+  \caption{The induced prism $\overline{\TT}_t$ of an element $\TT$ valuated at $\VV_t$}
+  \label{fig:prism}
+\end{figure}
+
+If we note $(x_1,\,y_1),\,(x_2,\,y_2),\,(x_3,\,y_3)$ the coordinates of the three vertices $P_{1,2,3}$ of $\TT$ in a Cartesian coordinate system, then the prism $\overline{\TT}_t$ is defined by the following six vertices (figure \ref{fig:prism}):
+\begin{itemize}
+\item the \textbf{projected points} $\overline{P}_{1,2,3}$ of coordinates $(x_1,\,y_1,\,0),\,(x_2,\,y_2,\,0),\,(x_3,\,y_3,\,0)$ which form the \textbf{base triangle} of the prism,
+\item the \textbf{valuated points} $\overline{P}_{1,2,3}^{\VV_t}$ of coordinates $(x_1,\,y_1,\,\VV_t(P_1)),\,(x_2,\,y_2,\,\VV_t(P_2)),\,(x_3,\,y_3,\,\VV_t(P_3))$ which form the \textbf{upper triangle} of the prism.
+\end{itemize}
+\index{Volume!Projected points, Valuated points}
+\index{Volume!Base triangle, Upper triangle}
+
+This prism is truncated because the upper triangle is not necessarily parallel to the base triangle; it is also a right prism because the three lateral edges is always perpendicular to the base triangle.
+
+It is known from the classical geometry that the volume of a truncated right triangular prism is equal to the product of its base by one third the sum of its lateral edges. The volume of an element $\TT$ valuated at $\VV_t$ in definition \ref{def:volumeT} corresponds thus to the volume of its induced prism.
+
+Since the valuation $\VV_t$ can take positive and negative values, the upper triangle does not always lie on the half-space $z >0$ or $z<0$. When the upper triangle intersects the base triangle, the induced prism $\overline{\TT}_t$ \textbf{is not a polyhedron}, but the volume defined above is still valid.
+
+\subsection{Volume of a mesh}
+\begin{defn}
+The \textbf{volume} $\absvol_t(\MM,\,\VV_t)$ \textbf{of a mesh} $\MM$ valuated at $\VV_t$ is the sum of the volumes of its elements:
+\[\vol_t(\MM,\,\VV_t) = \sum_{\TT\in\MM}\vol_t(\TT,\,\VV_t).\]
+\label{def:VolumeM}\end{defn}
+\index{Volume!Volume of a mesh}
+
+\begin{prop}
+The volume of a mesh $\MM$ valuated at $\VV_t$ defined in definition \ref{def:VolumeM} is invariant under sub-triangulation.\label{prop:volume-invariant}
+\end{prop}
+
+\begin{proof}[Proof]
+Let $\MM$ be a mesh valuated at $\VV_t$ and $(\MM^*,\,\VV_t^*) \in \ST(\MM,\,\VV_t)$. Let $\TT$ be any element of $\MM$ and $\TT_1,\,\TT_2,\,\TT_3$ its splits in $\MM^*$ at the point $Q$.
+First we write down the total volume of the three splits:
+\begin{align*}
+& \sum_{k=1}^3\vol_t(\TT_k,\,\VV_t^*)\\ & =
+   \frac{\area(\TT_1)}{3}\left(\VV_t^*(P_2)+ \VV_t^*(P_3) + \VV_t^*(Q)
+\right)
+ +  \frac{\area(\TT_2)}{3}\left(\VV_t^*(P_1) + \VV_t^*(P_3)+ \VV_t^*(Q)
+\right)\\ &
+\hspace{8pt} +  \frac{\area(\TT_3)}{3}\left(\VV_t^*(P_1)+ \VV_t^*(P_2) + \VV_t^*(Q)
+\right) \\ & = 
+\frac{1}{3}\,\mathlarger{\mathlarger{\sum}}_{k=1}^3\left(\VV_t^*(P_k)\sum_{\substack{j=1,2,3 \\ j\neq k}}\area(\TT_j)\right) + \frac{1}{3}\,\VV_t^*(Q)\,\sum_{k=1}^3\area(\TT_k).
+\end{align*}
+By the definition of sub-triangulation, the values $\VV_t^*(P_k) = \VV_t(P_k)$ and the value of $Q$ is equal to \[\VV_t^*(Q) = \sum_{k=1}^3\lambda_k\,\VV_t(P_k) = \frac{1}{\area(\TT)}\sum_{k=1}^3\area(\TT_k)\,\VV_t(P_k) 
+=  \frac{\sum_{k=1}^3\area(\TT_k)\,\VV_t(P_k)}{\sum_{k=1}^3\area(\TT_k)},\]
+thus,
+\begin{align*}\sum_{k=1}^3\vol_t(\TT_k,\,\VV_t^*) & = 
+\frac{1}{3}\,\mathlarger{\mathlarger{\sum}}_{k=1}^3\left(\VV_t(P_k)\sum_{\substack{j=1,2,3 \\ j\neq k}}\area(\TT_j)\right)
++ \frac{1}{3}\,\sum_{k=1}^3\area(\TT_k)\,\VV_t(P_k)
+\\ & = \frac{1}{3}\,\mathlarger{\mathlarger{\sum}}_{k=1}^3\left(\VV_t(P_k)\sum_{j=1}^3\area(\TT_j)\right)
+= \frac{\area(\TT)}{3} \sum_{k=1}^3 \VV_t(P_i) \\ & = \vol_t(\TT,\,\VV_t) .
+\end{align*}
+Therefore,
+\[\vol_t(\MM^*,\,\VV_t^*) = \sum_{\TT\in\MM}\left(\sum_{\substack{\TT_k\\ \mathrm{splits\;of\;} \TT}} \vol_t(\TT_k,\,\VV_t^*)\right) = \sum_{\TT\in\MM} \vol_t(\TT,\,\VV_t) = \vol_t(\MM,\,\VV_t).\]
+\end{proof}
+
+
+\subsection{Positive and negative volumes of an element}
+\index{Volume!Positive and negative volumes of an element}
+\begin{defn}
+Given a mesh $\MM$ valuated at $\VV_t$, the \textbf{positive volume} $\vol_t^+(\TT,\,\VV_t)$ \textbf{of an element} $\TT\in\MM$ of vertices $P_{1,2,3}$, is equal to
+\begin{itemize}
+\item 0, if $\VV_t(P_i) \leqslant 0$ for $i=1,2,3$ (the upper triangle lies in the half-space $z\leqslant0$);
+\item its net volume $\vol_t(\TT,\,\VV_t)$, if $\VV_t(P_i) \geqslant 0$ for $i=1,2,3$ (the upper triangle lies in the half-space $z\geqslant 0$);
+\item otherwise, the upper triangle intersect the plane $z=0$ at a segment $Q_1\,Q_2$ (figure \ref{fig:positive-volume}). There are two cases:
+\begin{itemize}
+\item if $\TT$ has only one vertex, w.l.o.g. $P_1$, such that $\VV_t(P_1) > 0$, the positive volume is equal to the volume of the tetrahedron defined by $Q_1,\,Q_2$, the projected point $\overline{P}_1$ and the valuated point $\overline{P}_1^{\VV_t}$ of $P_1$;
+\item otherwise, $\TT$ has only one vertex, w.l.o.g. $P_1$, such that $\VV_t(P_1) < 0$. The positive volume is equal to the difference between the net volume $\vol_t(\TT,\,\VV_t)$ and the volume of the tetrahedron defined by $Q_1,\,Q_2$, the projected point $\overline{P}_1$ and the valuated point $\overline{P}_1^{\VV_t}$ of $P_1$.
+\end{itemize}
+\end{itemize}
+\end{defn}
+\begin{figure}[ht!]
+\centering \includestandalone[mode=buildnew]{positive-volume}
+  \caption{When the upper triangle intersects the base triangle at a segment $Q_1\,Q_2$}
+  \label{fig:positive-volume}
+\end{figure}
+
+\begin{defn}
+Given a mesh $\MM$ valuated at $\VV_t$, the \textbf{negative volume} $\vol_t^-(\TT,\,\VV_t)$ \textbf{of an element} $\TT\in\MM$ is equal to the difference between its net volume and its positive volume:
+\[\vol_t^-(\TT,\,\VV_t) =  \vol_t(\TT,\,\VV_t) -  \vol_t^+(\TT,\,\VV_t).\]
+\end{defn}
+
+\subsection{Absolute and quadratic volumes of an element, of a mesh}
+\begin{defn}
+Given a mesh $\MM$ valuated at $\VV_t$, the \textbf{absolute volume} $\absvol_t(\TT,\,\VV_t)$ \textbf{of an element} $\TT\in\MM$ of vertices $P_{1,2,3}$ is the product of the area of $\TT$ by one third the sum of the absolute values of its three vertices:
+\[\absvol_t(\TT,\,\VV_t) = \frac{\area(\TT)}{3}
+\sum_{k=1}^3 \left| \VV_t(P_i) \right|. \]
+\label{def:absVolumeT}\end{defn}
+\index{Volume!Absolute volume of an element}
+
+\begin{defn}
+The \textbf{absolute volume} $\absvol_t(\MM,\,\VV_t)$ \textbf{of a mesh} $\MM$ valuated at $\VV_t$ is the sum of the absolute volumes of its elements:
+\[\absvol_t(\MM,\,\VV_t) = \sum_{\TT\in\MM}\absvol_t(\TT,\,\VV_t).\]
+\label{def:absVolumeM}\end{defn}
+\index{Volume!Absolute volume of a mesh}
+
+\begin{prop}
+The absolute volume of a mesh $\MM$ valuated at $\VV_t$ defined in definition \ref{def:absVolumeM} is invariant under sub-triangulation.\label{prop:absvolume-invariant}
+\end{prop}
+\begin{proof}[Proof]
+Analogous to the proof of proposition \ref{prop:volume-invariant}.
+\end{proof}
+
+
+\begin{defn}
+Given a mesh $\MM$ valuated at $\VV_t$, the \textbf{quadratic volume} $\quadvol_t(\TT,\,\VV_t)$ \textbf{of an element} $\TT\in\MM$ is equal to the volume of $\TT$ valuated at $\VV_t^2$:
+\[\quadvol_t(\TT,\,\VV_t) =\vol_t(\TT,\,\VV_t^2) =  \frac{\area(\TT)}{3}
+\sum_{k=1}^3  \VV_t^2(P_i). \]
+\label{def:quadVolumeT}\end{defn}
+\index{Volume!Quadratic volume of an element}
+
+\begin{defn}
+The \textbf{quadratic volume} $\absvol_t(\MM,\,\VV_t)$ \textbf{of a mesh} $\MM$ valuated at $\VV_t$ is the square root of the sum of the quadratic volumes of its elements:
+\[\quadvol_t(\MM,\,\VV_t) = \sqrt{\sum_{\TT\in\MM}\quadvol_t(\TT,\,\VV_t)}.\]
+\label{def:quadVolumeM}\end{defn}
+\index{Volume!Quadratic volume of a mesh}
+
+\begin{prop}
+The quadratic volume of a mesh $\MM$ valuated at $\VV_t$ defined in definition \ref{def:quadVolumeM} is invariant under sub-triangulation.\label{prop:quadvolume-invariant}
+\end{prop}
+\begin{proof}[Proof]By definition,
+\begin{align*}
+\quadvol_t(\MM,\,\VV_t) & = \sqrt{\sum_{\TT\in\MM}\quadvol_t(\TT,\,\VV_t)}\\
+& = \sqrt{\sum_{\TT\in\MM}\vol_t(\TT,\,\VV_t^2)}\\
+& = \sqrt{\vol_t(\MM,\,\VV_t^2)},
+\end{align*}
+yet by proposition \ref{prop:volume-invariant}, the volume of $\MM$ valuated at $\VV_t^2$ is invariant under sub-triangulation, thus the quadratic volume of $\MM$ valuated at $\VV_t$ is also invariant under sub-triangulation.
+\end{proof}
+
+
+
+\section{Comparison between two meshes}
+\index{Comparison between two meshes}
+
+
+\subsection{Comparison between two identical meshes}
+\begin{defn}
+Two meshes $\MM_1$ and $\MM_2$ are \textbf{identical} if the sets of their elements are equal: 
+\[\{\TT\in\MM_1\} = \{\TT\in\MM_2\}\].
+\end{defn}
+\index{Comparison between two meshes!Identical meshes}
+
+\begin{defn}
+A \textbf{reference mesh} is a mesh $\MM_0$ with a constant valuation $\VV_t = \VV_0$ for all time $t$.
+\end{defn}
+\index{Comparison between two meshes!Reference mesh}
+
+\subsubsection{Mean signed deviation}
+\begin{defn}
+Let $\MM_0$ be a reference mesh with valuation $\VV_0$. For any mesh valuated at $\VV_t$ and identical to $\MM_0$, the \textbf{mean signed deviation (MSD)} with respect to $\MM_0$ is the function  $\mathrm{MSD}_{\MM_0,\VV_0}$ in $\RR_+$ that maps $(\MM_0,\,\VV_t)$ to the volume of $\MM_0$ valuated at $\VV_t-\VV_0$, divided by the total area of $\MM_0$:
+\[\mathrm{MSD}_{\MM_0,\VV_0} (\MM_0,\,\VV_t) = \frac{\vol_t(\MM_0, \VV_t-\VV_0)}{\area(\MM_0)}.\]
+\label{def:MSD}
+\end{defn}
+\index{Comparison between two meshes!Mean signed deviation}
+\begin{prop}
+The mean signed distance is invariant under sub-triangulation.
+\end{prop}
+\begin{proof}[Proof]
+It is clear that a sub-triangulation does not change the total area of the mesh.
+By proposition \ref{prop:volume-invariant}, the volume of $\MM_0$ valuated at $\VV_t-\VV_0$ is invariant under sub-triangulation. Therefore the mean signed deviation is also invariant under sub-triangulation.
+\end{proof}
+
+
+\subsubsection{Mean absolute deviation}
+\begin{defn}
+Let $\MM_0$ be a reference mesh with valuation $\VV_0$. For any mesh valuated at $\VV_t$ and identical to $\MM_0$, the \textbf{mean absolute error (MAD)} with respect to $\MM_0$ is the function  $\mathrm{MAD}_{\MM_0,\VV_0}$ in $\RR_+$ that maps $(\MM_0,\,\VV_t)$ to the absolute volume of $\MM_0$ valuated at $\VV_t-\VV_0$, divided by the total area of $\MM_0$:
+\[\mathrm{MAD}_{\MM_0,\VV_0} (\MM_0,\,\VV_t) = \frac{\absvol_t(\MM_0, \VV_t-\VV_0)}{\area(\MM_0)}.\]
+\end{defn}
+\index{Comparison between two meshes!Mean absolute deviation}
+
+\begin{prop}
+The mean absolute distance is invariant under sub-triangulation.
+\end{prop}
+\begin{proof}[Proof]
+It is clear that a sub-triangulation does not change the total area of the mesh.
+By proposition \ref{prop:absvolume-invariant}, the absolute volume of $\MM_0$ valuated at $\VV_t-\VV_0$ is invariant under sub-triangulation. Therefore the mean absolute deviation is also invariant under sub-triangulation.
+\end{proof}
+
+\subsubsection{Root mean square deviation}
+\begin{defn}
+Let $\MM_0$ be a reference mesh with valuation $\VV_0$. For any mesh valuated at $\VV_t$ and identical to $\MM_0$, the \textbf{root mean square deviation (RMSD)} with respect to $\MM_0$ is the function  $\mathrm{RMSD}_{\MM_0,\VV_0}$ in $\RR_+$ that maps $(\MM_0,\,\VV_t)$ to the quadratic volume of $\MM_0$ valuated at $\VV_t-\VV_0$, divided by the total area of $\MM_0$:
+\[\mathrm{RMSD}_{\MM_0,\VV_0} (\MM_0,\,\VV_t) = \frac{\quadvol_t(\MM_0, \VV_t-\VV_0)}{\area(\MM_0)}.\]
+\end{defn}
+\index{Comparison between two meshes!Root mean square deviation}
+
+\begin{prop}
+The root mean square deviation is invariant under sub-triangulation.
+\end{prop}
+\begin{proof}[Proof]
+It is clear that a sub-triangulation does not change the total area of the mesh.
+By proposition \ref{prop:quadvolume-invariant}, the quadratic volume of $\MM_0$ valuated at $\VV_t-\VV_0$ is invariant under sub-triangulation. Therefore the root mean square deviation is also invariant under sub-triangulation.
+\end{proof}
+
+
+
+
+\subsubsection{Element-wise signed deviation, deviation distribution}
+Let $\MM_0$ be a reference mesh with valuation $\VV_0$. For any mesh valuated at $\VV_t$ and identical to $\MM_0$, the \textbf{deviation distribution function} $F_X$ is the empirical distribution function of the variable 
+\[X = \frac{\size(\MM_0)\,\vol_t(\TT,\,\VV_t-\VV_0)}{\area(\MM_0)},\] 
+called the \textbf{element-wise signed deviation}, measured from the set of all elements $\TT\in\MM_0$:
+\[F_X(x) = \frac{1}{\size(\MM)}\, \card \left\{   \TT\in\MM_0 \,\left|\,
+\frac{\size(\MM)\,\vol_t(\TT,\,\VV_t-\VV_0)}{\area(\MM)}\right. \leqslant x \right\},
+\quad x\in\RR.\]
+\index{Comparison between two meshes!Element-wise signed deviation}
+\index{Comparison between two meshes!Deviation distribution function}
+
+\begin{remark}
+The empirical mean of the element-wise signed deviation is equal to the mean signed deviation defined in
+\ref{def:MSD}:
+\begin{align*}
+\EE(X) & = \frac{1}{\size(\MM_0)}\,\sum_{\TT\in\MM_0}
+ \left(\frac{\size(\MM_0)\,\vol_t(\TT,\,\VV_t-\VV_0)}{\area(\MM_0)}\right) \\
+ & = \sum_{\TT\in\MM_0}\left(\frac{\vol_t(\TT,\,\VV_t-\VV_0)}{\area(\MM_0)}\right) \\
+ & = \frac{\vol_t(\MM_0,\,\VV_t-\VV_0)}{\area(\MM_0)}\\
+ & = \mathrm{MSD}_{\MM_0,\VV_0} (\MM_0,\,\VV_t),
+\end{align*}
+and is therefore invariant under sub-triangulation.
+\end{remark}
+
+
+% \bibliographystyle{plain}
+% \bibliography{mybib.bib}
+% 
+
+\end{document}
