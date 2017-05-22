@@ -1,0 +1,87 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{geometry}
+\geometry{margin=2cm}
+
+\newcommand{\HD}{\mathrm{HD}}
+\newcommand{\RB}{\mathrm{RB}}
+\newcommand{\EF}{\mathrm{EF}}
+\newcommand{\DF}{\mathrm{DF}}
+\newcommand{\QS}{\mathrm{QS}}
+\newcommand{\QSX}{\mathrm{QSX}}
+\newcommand{\QSY}{\mathrm{QSY}}
+\newcommand{\QSBL}{\mathrm{QSBL}}
+\newcommand{\QSBLX}{\mathrm{QSBLX}}
+\newcommand{\QSBLY}{\mathrm{QSBLY}}
+\newcommand{\QSSUSP}{\mathrm{QSSUSP}}
+\newcommand{\QSSUSPX}{\mathrm{QSSUSPX}}
+\newcommand{\QSSUSPY}{\mathrm{QSSUSPY}}
+\newcommand{\US}{\mathrm{US}}
+\newcommand{\DMAX}{\mathrm{DMAX}}
+\newcommand{\IF}{\mathrm{if}\;}
+
+\usepackage{multicol}
+ 
+\begin{document}
+\begin{multicols}{2}
+\thispagestyle{empty}
+
+\section{Hydraulic variables}
+\[\begin{aligned}
+& H = S-B\\
+& S = H+B\\
+& B = S-H\\
+& M = \sqrt{U^2+V^2}\\
+& I = H\times U\\
+& J = H\times V\\
+& Q = \sqrt{I^2 + J^2}\\
+& C = \sqrt{g\,H}\\
+& F = \frac{M}{C}
+\end{aligned}\]
+
+\section{Sediment transport variables}
+\[\begin{aligned}
+& \HD = B - \RB\\
+& B = \HD - \RB\\
+& \RB = B - \HD\\
+& \QS = \sqrt{\QSX ^2 + \QSY ^2}\\
+& \QS = \EF + \DF\\
+& \QSBL = \sqrt{\QSBLX ^2 + \QSBLY ^2}\\
+& \QSSUSP = \sqrt{\QSSUSPX ^2 + \QSSUSPY ^2}
+\end{aligned}\]
+
+\end{multicols}
+
+\section{Friction velocity}
+\[\US = \sqrt{\frac{1}{2}\,C_f\,M^2}\]
+\begin{multicols}{2}
+\subsection{Chézy}
+\[C_f = \frac{2 g}{C^2}\]
+
+\subsection{Strickler}
+\[ C_f = \frac{2 g}{K^2 h^{1/3}}\]
+
+\subsection{Manning}
+\[ C_f = \frac{2 g m^2}{h^{1/3}}\]
+
+\subsection{Nikuradse}
+
+\[ C_f = \frac{2 \kappa^2}{ \left[ \log\left(\frac{30}{e^1} \frac{h}{k_S}\right) \right] ^2} \]
+\end{multicols}
+
+
+\section{Bed shear stress, Rouse number and diameter}
+\[\begin{aligned}
+& \tau = \rho \,\US^2\\
+& R_0 = \frac{w_s}{\kappa\, \US}\\
+& \DMAX = \begin{cases}
+     1.4593 \times \tau^{0.979} &\IF   \tau > 3.4 \\
+     1.2912 \times \tau^2 + 1.3572 \tau - 0.1154 
+    &\IF 0.1 < \tau \leqslant 0.34 \\
+     0.9055 \times \tau^{1.3178} &\IF \tau \leqslant 0.1
+  \end{cases}
+\end{aligned}\]
+
+
+\end{document}
