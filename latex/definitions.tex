@@ -35,6 +35,8 @@
 \newtheorem{prop}{Proposition}
 \newtheorem{remark}{Remark}
 
+\usepackage{tikz}
+
 \usepackage{makeidx}
 \makeindex
 
@@ -57,7 +59,7 @@
 \date{}
 
 \begin{document}
-\shorthandoff{:} 
+\shorthandoff{:}
 
 \maketitle
 \small
@@ -78,13 +80,13 @@ such that
 \item every element has at least one common edge with another element (the mesh is \textbf{connected}).
 \end{itemize}
 \index{Basic definitions!Mesh}
-Furthermore, for some integer $t$ between 0 and $T_{\max}$, 
+Furthermore, for some integer $t$ between 0 and $T_{\max}$,
 a mesh can have a \textbf{valuation} $\VV_t$ at time $t$, which assigns to each point of the mesh a real number, called the \textbf{value} of the point.
 \index{Basic definitions!Valuation, Value of a point}
 
 Other useful notations include
 \begin{itemize}
-\item $\area(\TT)$ is the area of the triangle $\TT$; 
+\item $\area(\TT)$ is the area of the triangle $\TT$;
 \item $\area(\MM)=\sum_{\TT\in\MM}\area(\TT)$ is the total area of elements in the mesh $\MM$;
 \item $\size(\MM)$ is the number of elements in the mesh $\MM$.
 \end{itemize}
@@ -185,13 +187,13 @@ First we write down the total volume of the three splits:
  +  \frac{\area(\TT_2)}{3}\left(\VV_t^*(P_1) + \VV_t^*(P_3)+ \VV_t^*(Q)
 \right)\\ &
 \hspace{8pt} +  \frac{\area(\TT_3)}{3}\left(\VV_t^*(P_1)+ \VV_t^*(P_2) + \VV_t^*(Q)
-\right) \\ & = 
+\right) \\ & =
 \frac{1}{3}\,\mathlarger{\mathlarger{\sum}}_{k=1}^3\left(\VV_t^*(P_k)\sum_{\substack{j=1,2,3 \\ j\neq k}}\area(\TT_j)\right) + \frac{1}{3}\,\VV_t^*(Q)\,\sum_{k=1}^3\area(\TT_k).
 \end{align*}
-By the definition of sub-triangulation, the values $\VV_t^*(P_k) = \VV_t(P_k)$ and the value of $Q$ is equal to \[\VV_t^*(Q) = \sum_{k=1}^3\lambda_k\,\VV_t(P_k) = \frac{1}{\area(\TT)}\sum_{k=1}^3\area(\TT_k)\,\VV_t(P_k) 
+By the definition of sub-triangulation, the values $\VV_t^*(P_k) = \VV_t(P_k)$ and the value of $Q$ is equal to \[\VV_t^*(Q) = \sum_{k=1}^3\lambda_k\,\VV_t(P_k) = \frac{1}{\area(\TT)}\sum_{k=1}^3\area(\TT_k)\,\VV_t(P_k)
 =  \frac{\sum_{k=1}^3\area(\TT_k)\,\VV_t(P_k)}{\sum_{k=1}^3\area(\TT_k)},\]
 thus,
-\begin{align*}\sum_{k=1}^3\vol_t(\TT_k,\,\VV_t^*) & = 
+\begin{align*}\sum_{k=1}^3\vol_t(\TT_k,\,\VV_t^*) & =
 \frac{1}{3}\,\mathlarger{\mathlarger{\sum}}_{k=1}^3\left(\VV_t(P_k)\sum_{\substack{j=1,2,3 \\ j\neq k}}\area(\TT_j)\right)
 + \frac{1}{3}\,\sum_{k=1}^3\area(\TT_k)\,\VV_t(P_k)
 \\ & = \frac{1}{3}\,\mathlarger{\mathlarger{\sum}}_{k=1}^3\left(\VV_t(P_k)\sum_{j=1}^3\area(\TT_j)\right)
@@ -282,7 +284,7 @@ yet by proposition \ref{prop:volume-invariant}, the volume of $\MM$ valuated at 
 
 \subsection{Comparison between two identical meshes}
 \begin{defn}
-Two meshes $\MM_1$ and $\MM_2$ are \textbf{identical} if the sets of their elements are equal: 
+Two meshes $\MM_1$ and $\MM_2$ are \textbf{identical} if the sets of their elements are equal:
 \[\{\TT\in\MM_1\} = \{\TT\in\MM_2\}\].
 \end{defn}
 \index{Comparison between two meshes!Identical meshes}
@@ -342,8 +344,8 @@ By proposition \ref{prop:quadvolume-invariant}, the quadratic volume of $\MM_0$ 
 
 
 \subsubsection{Element-wise signed deviation, deviation distribution}
-Let $\MM_0$ be a reference mesh with valuation $\VV_0$. For any mesh valuated at $\VV_t$ and identical to $\MM_0$, the \textbf{deviation distribution function} $F_X$ is the empirical distribution function of the variable 
-\[X = \frac{\size(\MM_0)\,\vol_t(\TT,\,\VV_t-\VV_0)}{\area(\MM_0)},\] 
+Let $\MM_0$ be a reference mesh with valuation $\VV_0$. For any mesh valuated at $\VV_t$ and identical to $\MM_0$, the \textbf{deviation distribution function} $F_X$ is the empirical distribution function of the variable
+\[X = \frac{\size(\MM_0)\,\vol_t(\TT,\,\VV_t-\VV_0)}{\area(\MM_0)},\]
 called the \textbf{element-wise signed deviation}, measured from the set of all elements $\TT\in\MM_0$:
 \[F_X(x) = \frac{1}{\size(\MM)}\, \card \left\{   \TT\in\MM_0 \,\left|\,
 \frac{\size(\MM)\,\vol_t(\TT,\,\VV_t-\VV_0)}{\area(\MM)}\right. \leqslant x \right\},
@@ -367,6 +369,6 @@ and is therefore invariant under sub-triangulation.
 
 % \bibliographystyle{plain}
 % \bibliography{mybib.bib}
-% 
+%
 
 \end{document}
