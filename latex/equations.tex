@@ -4,10 +4,21 @@
 \usepackage{geometry}
 \geometry{margin=2cm}
 
+\newcommand{\B}{\mathrm{B}}
+\newcommand{\HAU}{\mathrm{H}}
+\newcommand{\SL}{\mathrm{S}}
+\newcommand{\U}{\mathrm{U}}
+\newcommand{\V}{\mathrm{V}}
+\newcommand{\M}{\mathrm{M}}
+\newcommand{\I}{\mathrm{I}}
+\newcommand{\J}{\mathrm{J}}
+\newcommand{\Q}{\mathrm{Q}}
+
 \newcommand{\HD}{\mathrm{HD}}
 \newcommand{\RB}{\mathrm{RB}}
 \newcommand{\EF}{\mathrm{EF}}
 \newcommand{\DF}{\mathrm{DF}}
+
 \newcommand{\QS}{\mathrm{QS}}
 \newcommand{\QSX}{\mathrm{QSX}}
 \newcommand{\QSY}{\mathrm{QSY}}
@@ -17,34 +28,63 @@
 \newcommand{\QSSUSP}{\mathrm{QSSUSP}}
 \newcommand{\QSSUSPX}{\mathrm{QSSUSPX}}
 \newcommand{\QSSUSPY}{\mathrm{QSSUSPY}}
+
 \newcommand{\US}{\mathrm{US}}
 \newcommand{\DMAX}{\mathrm{DMAX}}
+\newcommand{\TAU}{\mathrm{TAU}}
 \newcommand{\IF}{\mathrm{if}\;}
 
+\usepackage{hyperref}
 \usepackage{multicol}
- 
+
 \begin{document}
-\begin{multicols}{2}
 \thispagestyle{empty}
 
-\section{Hydraulic variables}
+
+\section{Variables notations}
+
+Notation of 2D and 3D variables are described on this wiki page : \url{https://github.com/CNR-Engineering/TelTools/wiki/Notations-of-variables}.
+
+\section{Constants}
+
+Equations may contain following constants:
+
+\begin{center}
+  \begin{tabular}{ | c | c | c | }
+    \hline
+    Notation  & Description & Value and unit \\
+    \hline
+    $g$      & gravitational accelaration on earth & $9.80665 \; m.s^{-2}$ \\
+    $\rho$   & water density                       & $1000 \; kg.m^{-3}$ \\
+    $\kappa$ & Von Kármán constant                 & 0.4 \\
+    \hline
+  \end{tabular}
+\end{center}
+
+These constants are set in \texttt{slf/variable/variables\_utils.py}.
+
+\section{Equation in 2D}
+
+\begin{multicols}{2}
+
+\subsection{Hydraulic variables}
 \[\begin{aligned}
-& H = S-B\\
-& S = H+B\\
-& B = S-H\\
-& M = \sqrt{U^2+V^2}\\
-& I = H\times U\\
-& J = H\times V\\
-& Q = \sqrt{I^2 + J^2}\\
-& C = \sqrt{g\,H}\\
-& F = \frac{M}{C}
+& \HAU = \SL - \B\\
+& \SL = \HAU + \B\\
+& \B = \SL - \HAU\\
+& \M = \sqrt{\U^2+\V^2}\\
+& \I = \HAU \times \U\\
+& \J = \HAU \times \V\\
+& \mathrm{Q} = \sqrt{\I^2 + \J^2}\\
+& \mathrm{C} = \sqrt{g\,\HAU}\\
+& \mathrm{F} = \frac{\M}{\mathrm{C}}
 \end{aligned}\]
 
-\section{Sediment transport variables}
+\subsection{Sediment transport variables}
 \[\begin{aligned}
-& \HD = B - \RB\\
-& B = \HD - \RB\\
-& \RB = B - \HD\\
+& \HD = \B - \RB\\
+& \B = \HD - \RB\\
+& \RB = \B - \HD\\
 & \QS = \sqrt{\QSX ^2 + \QSY ^2}\\
 & \QS = \EF + \DF\\
 & \QSBL = \sqrt{\QSBLX ^2 + \QSBLY ^2}\\
@@ -53,35 +93,56 @@
 
 \end{multicols}
 
-\section{Friction velocity}
-\[\US = \sqrt{\frac{1}{2}\,C_f\,M^2}\]
+\subsection{Friction velocity}
+\[\US = \sqrt{\frac{1}{2}\,C_f\,\M^2}\]
+
+\begin{center}
+  \begin{tabular}{ | c | c | }
+    \hline
+    Law       & Coefficient \\
+    \hline
+    Chézy     & $C$ \\
+    Strickler & $K$ \\
+    Manning   & $m$ \\
+    Nikuradse & $k_S$ \\
+    \hline
+  \end{tabular}
+\end{center}
+
 \begin{multicols}{2}
-\subsection{Chézy}
+\subsubsection{Chézy}
 \[C_f = \frac{2 g}{C^2}\]
 
-\subsection{Strickler}
-\[ C_f = \frac{2 g}{K^2 h^{1/3}}\]
+\subsubsection{Strickler}
+\[ C_f = \frac{2 g}{K^2 \HAU^{1/3}}\]
 
-\subsection{Manning}
-\[ C_f = \frac{2 g m^2}{h^{1/3}}\]
+\subsubsection{Manning}
+\[ C_f = \frac{2 g m^2}{\HAU^{1/3}}\]
 
-\subsection{Nikuradse}
+\subsubsection{Nikuradse}
 
-\[ C_f = \frac{2 \kappa^2}{ \left[ \log\left(\frac{30}{e^1} \frac{h}{k_S}\right) \right] ^2} \]
+\[ C_f = \frac{2 \kappa^2}{ \left[ \log\left(\frac{30}{e^1} \frac{\HAU}{k_S}\right) \right] ^2} \]
 \end{multicols}
 
 
-\section{Bed shear stress, Rouse number and diameter}
+\subsection{Bed shear stress, Rouse number and diameter}
 \[\begin{aligned}
-& \tau = \rho \,\US^2\\
+& \TAU = \tau = \rho \,\US^2\\
 & R_0 = \frac{w_s}{\kappa\, \US}\\
 & \DMAX = \begin{cases}
      1.4593 \times \tau^{0.979} &\IF   \tau > 3.4 \\
-     1.2912 \times \tau^2 + 1.3572 \tau - 0.1154 
+     1.2912 \times \tau^2 + 1.3572 \tau - 0.1154
     &\IF 0.1 < \tau \leqslant 0.34 \\
      0.9055 \times \tau^{1.3178} &\IF \tau \leqslant 0.1
   \end{cases}
 \end{aligned}\]
 
+
+\section{Equations in 3D}
+
+\[\begin{aligned}
+& \M = \sqrt{\U^2+\V^2+\mathrm{W}^2}\\
+& \mathrm{NU} = \sqrt{\mathrm{NUX}^2+\mathrm{NUY}^2+\mathrm{NUZ}^2}
+\end{aligned}\]
 
 \end{document}
