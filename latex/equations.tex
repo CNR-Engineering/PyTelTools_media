@@ -1,8 +1,29 @@
 \documentclass{article}
+\usepackage[french]{babel}
+\addto\captionsfrench{
+  \renewcommand{\contentsname}{Table of Contents}
+  \renewcommand{\refname}{References}
+}
+
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath, amsfonts, amssymb}
+\usepackage[T1]{fontenc}
 \usepackage{geometry}
 \geometry{margin=2cm}
+
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[colorlinks]{hyperref}
+\hypersetup{citecolor=red!90, urlcolor=blue!80, linkcolor=blue!80}
+
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{relsize}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{5pt}
+\renewcommand{\baselinestretch}{1.2}
+
+\usepackage{makeidx}
+\makeindex
 
 \newcommand{\B}{\mathrm{B}}
 \newcommand{\HAU}{\mathrm{H}}
@@ -37,13 +58,23 @@
 \usepackage{hyperref}
 \usepackage{multicol}
 
-\begin{document}
-\thispagestyle{empty}
+\title{Equations integrated in \textsc{PyTelTools}}
+\author{Yishu \textsc{Wang}, Luc \textsc{Duron}}
+\date{August 2017}
 
+\begin{document}
+\shorthandoff{:}
+
+\maketitle
+\small
+\tableofcontents\newpage
+\printindex
+\normalsize
 
 \section{Variables notations}
 
 Notation of 2D and 3D variables are described on this wiki page : \url{https://github.com/CNR-Engineering/TelTools/wiki/Notations-of-variables}.
+Variable notations used in this document are based on the \texttt{varID} column of the tables presented on latter webpage.
 
 \section{Constants}
 
@@ -63,7 +94,7 @@ Equations may contain following constants:
 
 These constants are set in \texttt{slf/variable/variables\_utils.py}.
 
-\section{Equation in 2D}
+\section{Equations in 2D}
 
 \begin{multicols}{2}
 
@@ -129,6 +160,7 @@ These constants are set in \texttt{slf/variable/variables\_utils.py}.
 \[\begin{aligned}
 & \TAU = \tau = \rho \,\US^2\\
 & R_0 = \frac{w_s}{\kappa\, \US}\\
+& \mathrm{FROTP} = \mathrm{MU} \; \DMAX\\
 & \DMAX = \begin{cases}
      1.4593 \times \tau^{0.979} &\IF   \tau > 3.4 \\
      1.2912 \times \tau^2 + 1.3572 \tau - 0.1154
