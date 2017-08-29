@@ -2,7 +2,7 @@
 %.pdf: %.tex
 	pdflatex $< && pdflatex $<
 
-all: definitions.pdf equations.pdf
+all: mathematical_definitions.pdf equations.pdf
 
 clean:
 	find \( -name '*.aux' -o -name '*.idx' -o -name '*.ilg' -o -name '*.ind' -o -name '*.log' -o -name '*.toc' -o -name '*.out' \) -delete
