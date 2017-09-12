@@ -54,6 +54,7 @@
 \newcommand{\DMAX}{\mathrm{DMAX}}
 \newcommand{\TAU}{\mathrm{TAU}}
 \newcommand{\IF}{\mathrm{if}\;}
+\newcommand{\ELSE}{\mathrm{else}\;}
 
 \usepackage{hyperref}
 \usepackage{multicol}
@@ -111,6 +112,8 @@ These constants are set in \texttt{slf/variable/variables\_utils.py}.
 & \mathrm{F} = \frac{\M}{\mathrm{C}}
 \end{aligned}\]
 
+\vspace{1cm}                    % PADDING IS HARDCODED
+
 \subsection{Sediment transport variables}
 \[\begin{aligned}
 & \HD = \B - \RB\\
@@ -119,7 +122,13 @@ These constants are set in \texttt{slf/variable/variables\_utils.py}.
 & \QS = \sqrt{\QSX ^2 + \QSY ^2}\\
 & \QS = \EF + \DF\\
 & \QSBL = \sqrt{\QSBLX ^2 + \QSBLY ^2}\\
-& \QSSUSP = \sqrt{\QSSUSPX ^2 + \QSSUSPY ^2}
+& \QSSUSP = \sqrt{\QSSUSPX ^2 + \QSSUSPY ^2}\\
+& \QSX = \QS \frac{\U}{\M} \;\IF \M > 0 \;\ELSE 0\\
+& \QSY = \QS \frac{\V}{\M} \;\IF \M > 0 \;\ELSE 0\\
+& \QSBLX = \QSBL \frac{\U}{\M} \;\IF \M > 0 \;\ELSE 0\\
+& \QSBLY = \QSBL \frac{\V}{\M} \;\IF \M > 0 \;\ELSE 0\\
+& \QSSUSPX = \QSSUSP \frac{\U}{\M} \;\IF \M > 0 \;\ELSE 0\\
+& \QSSUSPY = \QSSUSP \frac{\V}{\M} \;\IF \M > 0 \;\ELSE 0
 \end{aligned}\]
 
 \end{multicols}
