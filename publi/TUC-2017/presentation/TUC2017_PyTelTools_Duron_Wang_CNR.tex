@@ -1,0 +1,133 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{animate}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{color}
+%\usepackage{listings}
+%\usepackage{pythonhighlight}
+%\usepackage{listings}
+\usepackage{minted}
+%\usemintedstyle{borland}
+
+
+% Add logo in header
+\usepackage{textpos}
+\addtobeamertemplate{frametitle}{}{%
+  \begin{textblock*}{100mm}(\textwidth-1cm,-1cm)
+    \includegraphics[height=1cm,width=1cm]{media/logo_cnr_engineering_ori.png}
+  \end{textblock*}
+}
+
+\usetheme{CambridgeUS}
+%\usetheme{Montpellier}
+%\usetheme{Boadilla}
+\usecolortheme{beaver}
+
+\setbeamercolor{block title}{fg=gray!15!white,bg=darkred!80!black}
+
+%% \setbeamertemplate{itemize subitem}{\color{orange}$\blacktriangleright$}
+\setbeamercolor{item projected}{fg=white,bg=red}
+
+%% \setbeamercolor{block body title text}{fg=green}
+%% \usepackage{color}
+%% \newcommand*{\bluebullet}{\textcolor{blue}{\textbullet}}
+%% \definecolor{trueblue}{RGB}{0, 115, 197}
+%% \setbeamercolor{itemize item}{fg=trueblue}
+
+
+\title[PyTelTools]{PyTelTools: Python scripts and GUI to automate Telemac post-processing tasks}
+\author{Luc \textsc{Duron}, Yishu \textsc{Wang}}
+\institute[CNR]{Compagnie Nationale du Rhône (CNR)}
+\date[XXIV\textsuperscript{th} TUC - Oct. 2017]{
+  {\tiny XXIV\textsuperscript{th} \textsc{TELEMAC-MASCARET} User Conference\\
+    Graz, Austria, 17-20 October, 2017}
+}
+
+% Add logo on first page
+\titlegraphic{
+  \hspace*{1.5cm}
+  \includegraphics[height=1.7cm]{media/logo_cnr_engineering_ori.png}
+  \hspace*{2.5cm}
+  \includegraphics[height=1.7cm]{media/PyTelTools_with_text.png}
+}
+
+% Remove some navigation links
+\setbeamertemplate{navigation symbols}{
+  % \insertslidenavigationsymbol
+  % \insertframenavigationsymbol
+  % \insertsubsectionnavigationsymbol
+  % \insertsectionnavigationsymbol
+  % \insertdocnavigationsymbol
+  % \insertbackfindforwardnavigationsymbol
+}
+
+% Affiche les numéros des références plutôt qu'une image
+%\setbeamertemplate{bibliography item}{\insertbiblabel}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\begin{frame}{Table of Contents}
+  \tableofcontents
+\end{frame}
+
+
+\input{context.tex}
+
+
+\input{post-processing.tex}
+
+
+\input{workflow.tex}
+
+
+\section{Conclusion}
+
+\begin{frame}{Conclusion}
+  \begin{itemize}
+    \item Python scripts developped from scratch for Telemac post-processing
+    \item accessible through a GUI
+    \item open-source, modest contribution
+    \item different levels of automation (workflow)
+    \item Some \textbf{improvements}:
+      \begin{itemize}
+        \item compare to measurements, implementation, ...
+        \item Unify more Mono and Multi implementation
+      \end{itemize}
+    \item Coming \textbf{new features} depends on needs (mostly new plots)
+  \end{itemize}
+\end{frame}
+
+\section*{The End...}
+
+\begin{frame}
+
+\begin{center}
+  {\huge Thank you}
+  \vspace{1cm}
+  \inputminted[fontsize=\Large,xleftmargin=0.4cm]{python}{ending.py}
+\end{center}
+
+\end{frame}
+
+\section*{References}
+\nocite{internship_report}\nocite{def_math}\nocite{equations}
+
+\begin{frame} % [allowframebreaks] %in case more than 1 slide needed
+  {References}
+  %\footnotesize
+  {\small
+  \bibliographystyle{plainurl} % apalike
+  \bibliography{reference}
+  }
+\end{frame}
+
+
+\end{document}
